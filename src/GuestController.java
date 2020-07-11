@@ -44,6 +44,7 @@ public class GuestController implements Initializable
     @FXML private Button addReservationButton;
     @FXML private Button removeGuestButton;
     @FXML private Button waitButton;
+    @FXML private Button exitButton;
     
     @FXML private TextField searchText;
     @FXML private TextField firstNameText;
@@ -98,9 +99,9 @@ public class GuestController implements Initializable
     //addPerson() is called when the add button is clicked. adds a person with the parameters the user entered in the textFields
     public void addPerson()
     {
-        if(currentScreenLabel.getText().equals("Guests")) //checks which "mode" the user is in
+        if(currentScreenLabel.getText().equals("Guests:")) //checks which "mode" the user is in
         {
-            if(firstNameText.getText() != "" && lastNameText.getText() != "" && phoneNumberText.getText() != "" && timeReservedText.getText() != "")
+            if(firstNameText.getText() != "" && lastNameText.getText() != "" && phoneNumberText.getText() != "")
             {    
                 if(timeRemainingToggle.isSelected() == true)
                 {
@@ -127,7 +128,7 @@ public class GuestController implements Initializable
                 guestLabel.setText("You must fill in all required fields");
             }
         }
-        else if(currentScreenLabel.getText().equals("Reservations"))
+        else if(currentScreenLabel.getText().equals("Reservations:"))
         {
             if(firstNameText.getText() != "" && lastNameText.getText() != "" && phoneNumberText.getText() != "" && timeReservedText.getText() != "")
             {    
@@ -161,11 +162,17 @@ public class GuestController implements Initializable
     //happens when the delete button is clicked. deletes all selected entries
     public void deletePerson()
     {
-        if(currentScreenLabel.getText().equals("Guests"))
+        if(currentScreenLabel.getText().equals("Guests:"))
+        {
             guestData.removeAll(table.getSelectionModel().getSelectedItems());
-
-        else if((currentScreenLabel.getText().equals("Reservations")))
+            countLabel.setText("" + guestData.size());
+        }
+        else 
+        {
             reservationData.removeAll(table.getSelectionModel().getSelectedItems());
+            countLabel.setText("" + reservationData.size());
+        }
+            
     }
 
     //happens autonomously when the TextField searchText is updated. filters the list to any attributes an object shares with the TextField
@@ -196,7 +203,7 @@ public class GuestController implements Initializable
     //sets up the timer when a new object is added to the table
     public void setUpTimer()
     {
-        if(currentScreenLabel.getText().equals("Guests"))
+        if(currentScreenLabel.getText().equals("Guests:"))
         {
             counter = 0;
             reminder = Integer.parseInt(guestData.get(guestData.size() - 1).getTimeRemaining());  //gets the most recent entry
@@ -218,7 +225,7 @@ public class GuestController implements Initializable
             }
         }
 
-        else if(currentScreenLabel.getText().equals("Reservations"))
+        else if(currentScreenLabel.getText().equals("Reservations:"))
         {
             counter = 0;
             reminder = Integer.parseInt(reservationData.get(reservationData.size() - 1).getTimeRemaining());  //gets the most recent entry
@@ -301,16 +308,16 @@ public class GuestController implements Initializable
     //switches the mode of the program from guests to reservations and vice versa
     public void switchMode()
     {
-        if(currentScreenLabel.getText().equals("Reservations"))
+        if(currentScreenLabel.getText().equals("Reservations:"))
         {
-            currentScreenLabel.setText("Guests");
+            currentScreenLabel.setText("Guests:");
             timeReservedColumn.setVisible(false);
             timeReservedText.setVisible(false);
             timeReservedText.setDisable(true);
         }
         else
         {
-            currentScreenLabel.setText("Reservations");
+            currentScreenLabel.setText("Reservations:");
             timeReservedColumn.setVisible(true);
             timeReservedText.setVisible(true);
             timeReservedText.setDisable(false);
@@ -318,6 +325,11 @@ public class GuestController implements Initializable
         }
 
         
+    }
+
+    public void exit() 
+    {
+        System.exit(0);
     }
 
     

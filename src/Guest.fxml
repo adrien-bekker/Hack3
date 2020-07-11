@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GuestController">
    <children>
       <TableView fx:id="table" layoutX="131.0" layoutY="150.0" prefHeight="318.0" prefWidth="612.0">
         <columns>
@@ -25,9 +24,9 @@
       <ToggleButton fx:id="timeRemainingToggle" layoutX="537.0" layoutY="503.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="Required" />
       <HBox layoutX="285.0" layoutY="544.0" spacing="20.0">
          <children>
-            <Button fx:id="addButton" mnemonicParsing="false" text="Add Guest" textAlignment="CENTER" />
-            <Button fx:id="deleteButton" mnemonicParsing="false" text="Delete Guest" textAlignment="CENTER" />
-            <Button fx:id="swapButton" lineSpacing="20.0" mnemonicParsing="false" text="Reservation" textAlignment="CENTER" />
+            <Button fx:id="addButton" mnemonicParsing="false" onAction="#addPerson" text="Add Guest" textAlignment="CENTER" />
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deletePerson" text="Delete Guest" textAlignment="CENTER" />
+            <Button fx:id="swapButton" lineSpacing="20.0" mnemonicParsing="false" onAction="#switchMode" text="Reservation" textAlignment="CENTER" />
          </children>
       </HBox>
       <Button fx:id="jumpButton" layoutX="676.0" layoutY="65.0" mnemonicParsing="false" text="Jump To" />
@@ -35,7 +34,7 @@
       <Button fx:id="addReservationButton" layoutX="602.0" layoutY="26.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="Add" />
       <Button fx:id="waitButton" layoutX="676.0" layoutY="26.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="62.0" text="Wait" />
       <TextField fx:id="searchText" alignment="CENTER" layoutX="348.0" layoutY="116.0" promptText="Search" />
-      <Button fx:id="exitButton" layoutX="824.0" layoutY="544.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="62.0" text="Exit" />
+      <Button fx:id="exitButton" layoutX="824.0" layoutY="544.0" mnemonicParsing="false" onAction="#exit" prefHeight="25.0" prefWidth="62.0" text="Exit" />
       <HBox layoutX="128.0" layoutY="478.0" spacing="15.0">
          <children>
             <TextField fx:id="firstNameText" alignment="CENTER" prefHeight="25.0" prefWidth="121.0" promptText="First Name" />
@@ -67,6 +66,11 @@
       <Label fx:id="guestLabel" layoutX="415.0" layoutY="29.0" text="                  " textAlignment="CENTER">
          <font>
             <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="timeLabel" layoutX="20.0" layoutY="74.0" text="             ">
+         <font>
+            <Font size="40.0" />
          </font>
       </Label>
    </children>
