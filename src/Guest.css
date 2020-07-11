@@ -1,0 +1,24 @@
+.button {
+    -fx-background-radius: 7px;
+    -fx-background-color: gold;
+}
+
+.toggle-button {
+    -fx-background-radius: 7px;
+}
+
+.root {
+    -fx-background-color: black;
+}
+
+.label {
+    -fx-text-fill: blue;
+}
+
+.table-column {
+    -fx-background-color: gold;
+}
+
+#currentScreenLabel, #countLabel {
+    -fx-text-fill:cyan
+}
