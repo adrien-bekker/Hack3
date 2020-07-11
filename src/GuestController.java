@@ -24,6 +24,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
 
@@ -365,6 +366,31 @@ public class GuestController implements Initializable
         }
 
         
+    }
+
+    public void changeFirstName(CellEditEvent cell) {
+        Person personSelected = table.getSelectionModel().getSelectedItem();
+        personSelected.setFirstName(cell.getNewValue().toString());
+    }
+
+    public void changeLastName(CellEditEvent cell) {
+        Person personSelected = table.getSelectionModel().getSelectedItem();
+        personSelected.setLastName(cell.getNewValue().toString());
+    }
+
+    public void changePhoneNumber(CellEditEvent cell) {
+        Person personSelected = table.getSelectionModel().getSelectedItem();
+        personSelected.setPhoneNumber(cell.getNewValue().toString());
+    }
+
+    public void changeTimeRemaining(CellEditEvent cell) {
+        Person personSelected = table.getSelectionModel().getSelectedItem();
+        personSelected.setTimeRemaining(cell.getNewValue().toString());
+    }
+
+    public void changeTimeReserved(CellEditEvent cell) {
+        Person personSelected = table.getSelectionModel().getSelectedItem();
+        personSelected.setTimeRemaining(cell.getNewValue().toString());
     }
 
     public void exit() 

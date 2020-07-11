@@ -14,11 +14,11 @@
    <children>
       <TableView fx:id="table" layoutX="131.0" layoutY="150.0" prefHeight="318.0" prefWidth="612.0">
         <columns>
-          <TableColumn fx:id="firstNameColumn" prefWidth="143.0" text="First Name" />
-          <TableColumn fx:id="lastNameColumn" prefWidth="137.0" text="Last Name" />
-            <TableColumn fx:id="phoneNumberColumn" prefWidth="137.0" text="Phone Number" />
-            <TableColumn fx:id="timeRemainingColumn" prefWidth="102.0" text="Time Remaining" />
-            <TableColumn fx:id="timeReservedColumn" prefWidth="92.0" text="Reserved Time" />
+          <TableColumn fx:id="firstNameColumn" onEditStart="#changeFirstName" prefWidth="143.0" text="First Name" />
+          <TableColumn fx:id="lastNameColumn" onEditStart="#changeLastName" prefWidth="137.0" text="Last Name" />
+            <TableColumn fx:id="phoneNumberColumn" onEditStart="#changePhoneNumber" prefWidth="137.0" text="Phone Number" />
+            <TableColumn fx:id="timeRemainingColumn" onEditStart="#changeTimeRemaining" prefWidth="102.0" text="Time Remaining" />
+            <TableColumn fx:id="timeReservedColumn" onEditStart="#changeTimeReserved" prefWidth="92.0" text="Reserved Time" />
         </columns>
       </TableView>
       <ToggleButton fx:id="timeRemainingToggle" layoutX="537.0" layoutY="503.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="Required">
