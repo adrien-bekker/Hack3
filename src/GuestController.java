@@ -93,6 +93,12 @@ public class GuestController implements Initializable
         }), new KeyFrame(Duration.seconds(1)));
         timer.setCycleCount(Animation.INDEFINITE);
         timer.play();
+
+        currentScreenLabel.setText("Guests:");
+        timeReservedColumn.setVisible(false);
+        timeReservedText.setVisible(false);
+        timeReservedText.setDisable(true);
+        swapButton.setText("Reservations");
         
     }
 
@@ -101,14 +107,18 @@ public class GuestController implements Initializable
     {
         if(currentScreenLabel.getText().equals("Guests:")) //checks which "mode" the user is in
         {
-            if(firstNameText.getText() != "" && lastNameText.getText() != "" && phoneNumberText.getText() != "")
+            if(!(firstNameText.getText().equals("")) && !(lastNameText.getText().equals("")) && !(phoneNumberText.getText().equals("")))
             {    
                 if(timeRemainingToggle.isSelected() == true)
                 {
-                    if(timeRemainingText.getText() != "")
+                    if(!(timeRemainingText.getText().equals("")))
                     {
-                        guestData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), timeReservedText.getText()));
+                        guestData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), ""));
                         setUpTimer();
+                        firstNameText.setText("");
+                        lastNameText.setText("");
+                        phoneNumberText.setText("");
+                        timeRemainingText.setText("");
                         countLabel.setText(guestData.size() + "");
                     }
                     else
@@ -118,8 +128,12 @@ public class GuestController implements Initializable
                 }
                 else
                 {
-                    guestData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), timeReservedText.getText()));
+                    guestData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), ""));
                     setUpTimer();
+                    firstNameText.setText("");
+                    lastNameText.setText("");
+                    phoneNumberText.setText("");
+                    timeRemainingText.setText("");
                     countLabel.setText(guestData.size() + "");
                 }
             }
@@ -130,14 +144,19 @@ public class GuestController implements Initializable
         }
         else if(currentScreenLabel.getText().equals("Reservations:"))
         {
-            if(firstNameText.getText() != "" && lastNameText.getText() != "" && phoneNumberText.getText() != "" && timeReservedText.getText() != "")
+            if(!(firstNameText.getText().equals("")) && !(lastNameText.getText().equals("")) && !(phoneNumberText.getText().equals("")) && !(timeReservedText.getText().equals("")))
             {    
                 if(timeRemainingToggle.isSelected() == true)
                 {
-                    if(timeRemainingText.getText() != "")
+                    if(!(timeRemainingText.getText().equals("")))
                     {
                         reservationData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), timeReservedText.getText()));
                         setUpTimer();
+                        firstNameText.setText("");
+                        lastNameText.setText("");
+                        phoneNumberText.setText("");
+                        timeRemainingText.setText("");
+                        timeReservedText.setText("");
                         countLabel.setText(reservationData.size() + "");
                     }
                     else
@@ -149,6 +168,11 @@ public class GuestController implements Initializable
                 {
                     guestData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), timeReservedText.getText()));
                     setUpTimer();
+                    firstNameText.setText("");
+                    lastNameText.setText("");
+                    phoneNumberText.setText("");
+                    timeRemainingText.setText("");
+                    timeReservedText.setText("");
                     countLabel.setText(reservationData.size() + "");
                 }
             }
@@ -205,45 +229,51 @@ public class GuestController implements Initializable
     {
         if(currentScreenLabel.getText().equals("Guests:"))
         {
-            counter = 0;
-            reminder = Integer.parseInt(guestData.get(guestData.size() - 1).getTimeRemaining());  //gets the most recent entry
-            hours = reminder / 60;
-            minutes = reminder % 60;
-            if(hours > 9) //hours is 2 digits
+            if(!(guestData.get(guestData.size() - 1).getTimeRemaining().equals("")))
             {
-                if(minutes < 10) //minutes is 1 digit
+                counter = 0;
+                reminder = Integer.parseInt(guestData.get(guestData.size() - 1).getTimeRemaining());  //gets the most recent entry
+                hours = reminder / 60;
+                minutes = reminder % 60;
+                if(hours > 9) //hours is 2 digits
+                {
+                    if(minutes < 10) //minutes is 1 digit
                         guestData.get(guestData.size() - 1).setTimeRemaining(hours + ":" + "0" + minutes);
-                else //minutes is 2 digits
+                    else //minutes is 2 digits
                         guestData.get(guestData.size() - 1).setTimeRemaining(hours + ":" + minutes);
-            }
-            else //hours is 1 digit
-            {
-                if(minutes < 10) //minutes is 1 digit
-                    guestData.get(guestData.size() - 1).setTimeRemaining("0" + hours + ":" + "0" + minutes);
-                else //minutes is 2 digits
-                    guestData.get(guestData.size() - 1).setTimeRemaining("0" + hours + ":" + minutes);
+                }
+                else //hours is 1 digit
+                {
+                    if(minutes < 10) //minutes is 1 digit
+                        guestData.get(guestData.size() - 1).setTimeRemaining("0" + hours + ":" + "0" + minutes);
+                    else //minutes is 2 digits
+                        guestData.get(guestData.size() - 1).setTimeRemaining("0" + hours + ":" + minutes);
+                }
             }
         }
 
         else if(currentScreenLabel.getText().equals("Reservations:"))
         {
-            counter = 0;
-            reminder = Integer.parseInt(reservationData.get(reservationData.size() - 1).getTimeRemaining());  //gets the most recent entry
-            hours = reminder / 60;
-            minutes = reminder % 60;
-            if(hours > 9) //hours is 2 digits
+            if(!(reservationData.get(guestData.size() - 1).getTimeRemaining().equals("")))
             {
-                if(minutes < 10) //minutes is 1 digit
+                counter = 0;
+                reminder = Integer.parseInt(reservationData.get(reservationData.size() - 1).getTimeRemaining());  //gets the most recent entry
+                hours = reminder / 60;
+                minutes = reminder % 60;
+                if(hours > 9) //hours is 2 digits
+                {
+                    if(minutes < 10) //minutes is 1 digit
                         reservationData.get(reservationData.size() - 1).setTimeRemaining(hours + ":" + "0" + minutes);
-                else //minutes is 2 digits
+                    else //minutes is 2 digits
                         reservationData.get(reservationData.size() - 1).setTimeRemaining(hours + ":" + minutes);
-            }
-            else //hours is 1 digit
-            {
-                if(minutes < 10) //minutes is 1 digit
-                    reservationData.get(reservationData.size() - 1).setTimeRemaining("0" + hours + ":" + "0" + minutes);
-                else //minutes is 2 digits
-                    reservationData.get(reservationData.size() - 1).setTimeRemaining("0" + hours + ":" + minutes);
+                }
+                else //hours is 1 digit
+                {
+                    if(minutes < 10) //minutes is 1 digit
+                        reservationData.get(reservationData.size() - 1).setTimeRemaining("0" + hours + ":" + "0" + minutes);
+                    else //minutes is 2 digits
+                        reservationData.get(reservationData.size() - 1).setTimeRemaining("0" + hours + ":" + minutes);
+                }
             }
         }
     }
@@ -257,9 +287,14 @@ public class GuestController implements Initializable
                 for(int i = 0; i < guestData.size(); i++) //traverses guestData, an array of all person objects
                 {
                     counter = i;
+                    if(guestData.get(counter).getTimeRemaining().equals(""))
+                    {
+                        System.out.println("THERE IS NO VALUE ~");
+                        continue;
+                    }
                     
                     currentTime = guestData.get(counter).getTimeRemaining();
-
+                    System.out.println("the time remaining is: " + currentTime);
                     String[] times = currentTime.split(":");
                         
                     hours = Integer.parseInt(times[0]);
@@ -293,6 +328,7 @@ public class GuestController implements Initializable
                 } //end of for loop
                 searchText.setText(" ");
                 searchText.setText("");
+                table.refresh();
                 for(int j = 0; j < reservationData.size(); j++) //traverses reservationData, an array of all person objects, to check if there is a reservation where a person should arrive
                 {
                     counter = j;
@@ -300,7 +336,8 @@ public class GuestController implements Initializable
                         guestData.add(reservationData.remove(counter));
                     
                     j--;
-                } //end of for loop
+                }
+                 //end of for loop
             } //end of if statements
         }); //end of listene
     }
@@ -314,6 +351,8 @@ public class GuestController implements Initializable
             timeReservedColumn.setVisible(false);
             timeReservedText.setVisible(false);
             timeReservedText.setDisable(true);
+            swapButton.setText("Reservations");
+            table.setItems(guestData);
         }
         else
         {
@@ -321,7 +360,8 @@ public class GuestController implements Initializable
             timeReservedColumn.setVisible(true);
             timeReservedText.setVisible(true);
             timeReservedText.setDisable(false);
-
+            swapButton.setText("Guests");
+            table.setItems(reservationData);
         }
 
         
