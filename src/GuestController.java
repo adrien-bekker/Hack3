@@ -43,9 +43,8 @@ public class GuestController implements Initializable
     @FXML private Button swapButton;
     @FXML private Button jumpButton;
     @FXML private Button addReservationButton;
-    @FXML private Button removeGuestButton;
-    @FXML private Button waitButton;
     @FXML private Button exitButton;
+    @FXML private Button deleteExpiredButton;
     
     @FXML private TextField searchText;
     @FXML private TextField firstNameText;
@@ -67,6 +66,8 @@ public class GuestController implements Initializable
 
     private ObservableList<Person> guestData = FXCollections.observableArrayList();
     private ObservableList<Person> reservationData = FXCollections.observableArrayList();
+    private ObservableList<Person> expiredGuests = FXCollections.observableArrayList();
+    private ObservableList<Person> expiredReservations = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -100,7 +101,8 @@ public class GuestController implements Initializable
         timeReservedText.setVisible(false);
         timeReservedText.setDisable(true);
         swapButton.setText("Reservations");
-        
+
+        disableExpiredButtons();
     }
 
     //addPerson() is called when the add button is clicked. adds a person with the parameters the user entered in the textFields
@@ -147,11 +149,41 @@ public class GuestController implements Initializable
         {
             if(!(firstNameText.getText().equals("")) && !(lastNameText.getText().equals("")) && !(phoneNumberText.getText().equals("")) && !(timeReservedText.getText().equals("")))
             {    
-                if(timeRemainingToggle.isSelected() == true)
+                if(timeReservedText.getText().substring(timeReservedText.getText().length() - 2).toUpperCase().equals("AM") || timeReservedText.getText().substring(timeReservedText.getText().length() - 2).toUpperCase().equals("PM"))
                 {
-                    if(!(timeRemainingText.getText().equals("")))
+                    if(timeRemainingToggle.isSelected() == true)
                     {
-                        reservationData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), timeReservedText.getText()));
+                        if(!(timeRemainingText.getText().equals("")))
+                        {
+                            String tReserved = timeReservedText.getText().toUpperCase();
+                            int index = tReserved.indexOf(":");
+                            if(index == 1)
+                            {
+                                tReserved = "0" + tReserved; 
+                            }
+                            reservationData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), tReserved));
+                            setUpTimer();
+                            firstNameText.setText("");
+                            lastNameText.setText("");
+                            phoneNumberText.setText("");
+                            timeRemainingText.setText("");
+                            timeReservedText.setText("");
+                            countLabel.setText(reservationData.size() + "");
+                        }
+                        else
+                        {
+                            reservationLabel.setText("You must fill in all required fields");
+                        }
+                    }
+                    else
+                    {
+                        String tReserved = timeReservedText.getText().toUpperCase();
+                        int index = tReserved.indexOf(":");
+                        if(index == 1)
+                        {
+                            tReserved = "0" + tReserved; 
+                        }
+                        reservationData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), tReserved));
                         setUpTimer();
                         firstNameText.setText("");
                         lastNameText.setText("");
@@ -160,21 +192,10 @@ public class GuestController implements Initializable
                         timeReservedText.setText("");
                         countLabel.setText(reservationData.size() + "");
                     }
-                    else
-                    {
-                        reservationLabel.setText("You must fill in all required fields");
-                    }
                 }
                 else
                 {
-                    guestData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), timeReservedText.getText()));
-                    setUpTimer();
-                    firstNameText.setText("");
-                    lastNameText.setText("");
-                    phoneNumberText.setText("");
-                    timeRemainingText.setText("");
-                    timeReservedText.setText("");
-                    countLabel.setText(reservationData.size() + "");
+                    reservationLabel.setText("You must specify whether the reservation is at AM or PM");
                 }
             }
             else
@@ -255,7 +276,7 @@ public class GuestController implements Initializable
 
         else if(currentScreenLabel.getText().equals("Reservations:"))
         {
-            if(!(reservationData.get(guestData.size() - 1).getTimeRemaining().equals("")))
+            if(!(reservationData.get(reservationData.size() - 1).getTimeRemaining().equals("")))
             {
                 counter = 0;
                 reminder = Integer.parseInt(reservationData.get(reservationData.size() - 1).getTimeRemaining());  //gets the most recent entry
@@ -304,7 +325,7 @@ public class GuestController implements Initializable
                     minutes--;
                     if(hours == 0)
                         if(minutes == 0)
-                            System.out.println("Timer Done"); //fix this
+                            expiredGuests.add(guestData.get(counter)); //fix this
                            
                     if(minutes < 0) //resets the hour and minute value upon a new hour
                     {
@@ -330,17 +351,66 @@ public class GuestController implements Initializable
                 searchText.setText(" ");
                 searchText.setText("");
                 table.refresh();
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("a");
+                String currentMeridiem = LocalDateTime.now().format(formatter);
+                
                 for(int j = 0; j < reservationData.size(); j++) //traverses reservationData, an array of all person objects, to check if there is a reservation where a person should arrive
                 {
+                    System.out.println("Time reserved alone: " + reservationData.get(counter).getTimeReservedAlone());
+                    System.out.println("Time on the clock: " + timeLabel.getText().substring(0, 5));
                     counter = j;
-                    if(reservationData.get(counter).getTimeReserved().equals(timeLabel.getText().substring(0, 5)))
-                        guestData.add(reservationData.remove(counter));
                     
-                    j--;
+                    if(reservationData.get(counter).getTimeReservedAlone().equals(timeLabel.getText().substring(0, 5)) && reservationData.get(counter).getAMPM().equals(currentMeridiem))
+                    {
+                        expiredReservations.add(reservationData.get(counter));
+                    }
+                }
+
+                if(expiredReservations.size() > 0)
+                {
+                    addReservationButton.setVisible(true);
+                    addReservationButton.setDisable(false);
+                    jumpButton.setVisible(true);
+                    jumpButton.setDisable(false);
+                    reservationLabel.setVisible(true);
+                    reservationLabel.setText("There are " + expiredReservations.size() + " person(s) who have reservations right now.");
                 }
                  //end of for loop
             } //end of if statements
         }); //end of listene
+    }
+
+    //creates functionality for jumpTo() method. sets the expired items depending on which mode was originally there
+    public void jumpTo()
+    {
+        if(currentScreenLabel.getText().equals("Guests:"))
+            table.setItems(expiredGuests);
+        else
+            table.setItems(expiredReservations);
+        searchText.setText(" ");
+        searchText.setText("");
+        table.refresh();
+    }
+
+    //adds any selected expired reservations to the guest list as they should be here
+    public void addToGuest()
+    {
+        guestData.addAll(table.getSelectionModel().getSelectedItems());
+        expiredReservations.removeAll(table.getSelectionModel().getSelectedItems());
+        if(expiredReservations.size() == 0)
+            table.setItems(reservationData);
+    }
+
+    //deletes any selected reservations that are expired
+    public void deleteExpired()
+    {
+        expiredReservations.removeAll(table.getSelectionModel().getSelectedItems());
+        if(expiredReservations.size() == 0)
+            if(currentScreenLabel.getText().equals("Reservations:"))
+                table.setItems(guestData);
+            else
+                table.setItems(reservationData);  
     }
 
     //switches the mode of the program from guests to reservations and vice versa
@@ -353,6 +423,7 @@ public class GuestController implements Initializable
             timeReservedText.setVisible(false);
             timeReservedText.setDisable(true);
             swapButton.setText("Reservations");
+            countLabel.setText("" + guestData.size());
             table.setItems(guestData);
         }
         else
@@ -362,10 +433,9 @@ public class GuestController implements Initializable
             timeReservedText.setVisible(true);
             timeReservedText.setDisable(false);
             swapButton.setText("Guests");
+            countLabel.setText("" + reservationData.size());
             table.setItems(reservationData);
         }
-
-        
     }
 
     public void changeFirstName(CellEditEvent cell) {
@@ -393,6 +463,15 @@ public class GuestController implements Initializable
         personSelected.setTimeRemaining(cell.getNewValue().toString());
     }
 
+    public void disableExpiredButtons()
+    {
+        addReservationButton.setVisible(false);
+        addReservationButton.setDisable(true);
+        jumpButton.setVisible(false);
+        jumpButton.setDisable(true);
+        deleteExpiredButton.setVisible(false);
+        deleteExpiredButton.setDisable(true);
+    }
     public void exit() 
     {
         System.exit(0);

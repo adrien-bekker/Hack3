@@ -72,4 +72,14 @@ public class Person
     {
         return timeReserved.get();
     }
+
+    public String getAMPM()
+    {
+        return timeReserved.get().substring(timeReserved.get().length() - 2);
+    }
+
+    public String getTimeReservedAlone()
+    {
+        return timeReserved.get().substring(0, 5);
+    }
 }
