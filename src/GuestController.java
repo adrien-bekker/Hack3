@@ -26,6 +26,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Duration;
 
 public class GuestController implements Initializable
@@ -78,6 +79,14 @@ public class GuestController implements Initializable
         timeRemainingColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("timeRemaining"));
         timeReservedColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("timeReserved"));
         
+        //Allows column editing
+        table.setEditable(true);
+        firstNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        lastNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        phoneNumberColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        timeRemainingColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        timeReservedColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
         //Allows us to select multiple rows
         table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
@@ -440,6 +449,7 @@ public class GuestController implements Initializable
 
     public void changeFirstName(CellEditEvent cell) {
         Person personSelected = table.getSelectionModel().getSelectedItem();
+        System.out.println(personSelected);
         personSelected.setFirstName(cell.getNewValue().toString());
     }
 

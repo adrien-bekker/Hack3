@@ -16,31 +16,31 @@ public class Person
     //sets fName as the value of first
     public void setFirstName(String fName)
     {
-        first = new SimpleStringProperty(fName);
+        first.set(fName);
     }
 
     //sets lName as the value of last 
     public void setLastName(String lName)
     {
-        last = new SimpleStringProperty(lName);
+        last.set(lName);
     }
 
     //sets newNumber as the value of phoneNumber
     public void setPhoneNumber(String newNumber)
     {
-        phoneNumber = new SimpleStringProperty(newNumber);
+        phoneNumber.set(newNumber);
     }
 
     //sets newTime as the value of timeRemaining
     public void setTimeRemaining(String newTime)
     {
-        timeRemaining = new SimpleStringProperty(newTime);
+        timeRemaining.set(newTime);
     }
 
     //sets newReservation as the value of timeRemaining
     public void setTimeReserved(String newReservation)
     {
-        timeReserved = new SimpleStringProperty(newReservation);
+        timeReserved.set(newReservation);
     }
 
     //returns a String representing the First Name
