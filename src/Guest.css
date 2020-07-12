@@ -4,8 +4,11 @@
 }
 
 .toggle-button {
-    -fx-background-radius: 7px;
     -fx-background-color: gold;
+}
+
+.toggle-button:selected {
+    -fx-background-color: orange;
 }
 
 .root {

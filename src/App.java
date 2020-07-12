@@ -15,7 +15,7 @@ public class App extends Application {
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {
-            // If there is an error it prints it and stop the program
+            // If there is an error it prints it and stops the program
             System.out.println(e);
             System.exit(404);
         }

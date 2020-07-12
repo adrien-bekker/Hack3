@@ -180,7 +180,13 @@ public class GuestController implements Initializable
                     }
                     else
                     {
-                        guestLabel.setText("You must fill in all required fields");
+                        guestData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), ""));
+                        setUpTimer();
+                        firstNameText.setText("");
+                        lastNameText.setText("");
+                        phoneNumberText.setText("");
+                        timeRemainingText.setText("");
+                        countLabel.setText(guestData.size() + "");
                     }
                 }
             }
@@ -572,6 +578,7 @@ public class GuestController implements Initializable
     public void changeFirstName(CellEditEvent cell) {
         Person personSelected = table.getSelectionModel().getSelectedItem();
         personSelected.setFirstName(cell.getNewValue().toString());
+        table.refresh();
     }
 
     public void changeLastName(CellEditEvent cell) {
@@ -598,6 +605,8 @@ public class GuestController implements Initializable
         catch (Exception e)
         {
             guestLabel.setText("You must set the time as an integer in minutes");
+            personSelected.setTimeRemaining(cell.getOldValue().toString());
+            table.refresh();
         }
     }
 
@@ -608,13 +617,17 @@ public class GuestController implements Initializable
             String[] time = cell.getNewValue().toString().split(":");
             if((cell.getNewValue().toString().substring((cell.getNewValue().toString().length() - 2)).toUpperCase().equals("AM") || cell.getNewValue().toString().substring(cell.getNewValue().toString().length() - 2).toUpperCase().equals("PM")) &&
                                                         Integer.parseInt(time[0]) > 0 && Integer.parseInt(time[0]) <= 12 && (Integer.parseInt(time[1].substring(0, 2)) > 0 && Integer.parseInt(time[1].substring(0, 2)) < 60))
-                personSelected.setTimeRemaining(cell.getNewValue().toString());
+                personSelected.setTimeReserved(cell.getNewValue().toString());
             else
                 reservationLabel.setText("You must specify a valid time (AM or PM)");
+                personSelected.setTimeReserved(cell.getOldValue().toString());
+                table.refresh();
         }
         catch (Exception e)
         {
             reservationLabel.setText("You must specify a valid time");
+            personSelected.setTimeReserved(cell.getOldValue().toString());
+            table.refresh();
         }
     }
 
