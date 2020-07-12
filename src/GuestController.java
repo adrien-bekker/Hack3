@@ -589,7 +589,7 @@ public class GuestController implements Initializable
     //jumps to the list of guests who have an expired time
     public void jumpToGuest()
     {   
-        if (guestLabel.getText().substring(0, 65).equals("You already have this person in your guest list. (Phone number = "))
+        if (guestLabel.getText().length() > 65 && guestLabel.getText().substring(0, 65).equals("You already have this person in your guest list. (Phone number = "))
         {
             if (currentScreenLabel.getText().equals("Reservations:"))
                 switchMode();
@@ -630,6 +630,7 @@ public class GuestController implements Initializable
     public void deleteExpiredGuests()
     {
         expiredGuests.removeAll(table.getSelectionModel().getSelectedItems());
+        countLabel.setText(guestData.size() + "");
         if(expiredGuests.size() == 0)
         {
             table.setItems(guestData);
@@ -641,7 +642,7 @@ public class GuestController implements Initializable
 
     public void jumpToReservation()
     {
-        if (reservationLabel.getText().substring(0, 71).equals("You already have this person in your reservation list. (Phone number = "))
+        if (reservationLabel.getText().length() > 71 && reservationLabel.getText().substring(0, 71).equals("You already have this person in your reservation list. (Phone number = "))
         {
             if(currentScreenLabel.getText().equals("Guests:"))
                 switchMode();
@@ -668,6 +669,7 @@ public class GuestController implements Initializable
     public void addReservationToGuestList()
     {
         guestData.addAll(table.getSelectionModel().getSelectedItems());
+        countLabel.setText(reservationData.size() + "");
         expiredReservations.removeAll(table.getSelectionModel().getSelectedItems());
         if(expiredReservations.size() == 0)
         {
@@ -684,6 +686,7 @@ public class GuestController implements Initializable
     public void deleteExpiredReservations()
     {
         expiredReservations.removeAll(table.getSelectionModel().getSelectedItems());
+        countLabel.setText(reservationData.size() + "");
         if(expiredReservations.size() == 0)
         {
             table.setItems(reservationData);
