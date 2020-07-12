@@ -137,13 +137,39 @@ public class GuestController implements Initializable
                             int minutes = Integer.parseInt(timeRemainingText.getText());
                             if (minutes > 0) 
                             {
-                                guestData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), ""));
-                                setUpTimer();
-                                firstNameText.setText("");
-                                lastNameText.setText("");
-                                phoneNumberText.setText("");
-                                timeRemainingText.setText("");
-                                countLabel.setText(guestData.size() + "");
+                                Person newPerson = new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), "");
+                                    
+                                if(!listCheck(newPerson, guestData))
+                                {
+                                    guestLabel.setText("You already have this person in your guest list. (Phone number = " + phoneNumberText.getText() + ")");
+                                    jumpGuestButton.setDisable(false);
+                                    jumpGuestButton.setVisible(true);
+                                    firstNameText.setText("");
+                                    lastNameText.setText("");
+                                    phoneNumberText.setText("");
+                                    timeRemainingText.setText("");
+                                }
+                                else if (!listCheck(newPerson, reservationData)) 
+                                {
+                                    reservationLabel.setText("You already have this person in your reservation list. (Phone number = " + phoneNumberText.getText() + ")");
+                                    jumpReservationButton.setDisable(false);
+                                    jumpReservationButton.setVisible(true);
+                                    firstNameText.setText("");
+                                    lastNameText.setText("");
+                                    phoneNumberText.setText("");
+                                    timeRemainingText.setText("");
+                                }
+                                else
+                                {
+                                    guestData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), ""));
+                                    setUpTimer();
+                                    firstNameText.setText("");
+                                    lastNameText.setText("");
+                                    phoneNumberText.setText("");
+                                    timeRemainingText.setText("");
+                                    timeReservedText.setText("");
+                                    countLabel.setText(guestData.size() + "");
+                                }
                             }
                             else
                                 guestLabel.setText("You must set the time as an integer that's more than 0 minutes");
@@ -165,13 +191,39 @@ public class GuestController implements Initializable
                         try
                         {
                             Integer.parseInt(timeRemainingText.getText());
-                            guestData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), ""));
-                            setUpTimer();
-                            firstNameText.setText("");
-                            lastNameText.setText("");
-                            phoneNumberText.setText("");
-                            timeRemainingText.setText("");
-                            countLabel.setText(guestData.size() + "");
+                            Person newPerson = new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), "");
+                                    
+                            if(!listCheck(newPerson, guestData))
+                            {
+                                guestLabel.setText("You already have this person in your guest list. (Phone number = " + phoneNumberText.getText() + ")");
+                                jumpGuestButton.setDisable(false);
+                                jumpGuestButton.setVisible(true);
+                                firstNameText.setText("");
+                                lastNameText.setText("");
+                                phoneNumberText.setText("");
+                                timeRemainingText.setText("");
+                            }
+                            else if (!listCheck(newPerson, reservationData)) 
+                            {
+                                reservationLabel.setText("You already have this person in your reservation list. (Phone number = " + phoneNumberText.getText() + ")");
+                                jumpReservationButton.setDisable(false);
+                                jumpReservationButton.setVisible(true);
+                                firstNameText.setText("");
+                                lastNameText.setText("");
+                                phoneNumberText.setText("");
+                                timeRemainingText.setText("");
+                            }
+                            else
+                            {
+                               guestData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), ""));
+                                setUpTimer();
+                                firstNameText.setText("");
+                                lastNameText.setText("");
+                                phoneNumberText.setText("");
+                                timeRemainingText.setText("");
+                                timeReservedText.setText("");
+                                countLabel.setText(reservationData.size() + "");
+                            }
                         }
                         catch (Exception e)
                         {
@@ -180,13 +232,39 @@ public class GuestController implements Initializable
                     }
                     else
                     {
-                        guestData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), ""));
-                        setUpTimer();
-                        firstNameText.setText("");
-                        lastNameText.setText("");
-                        phoneNumberText.setText("");
-                        timeRemainingText.setText("");
-                        countLabel.setText(guestData.size() + "");
+                        Person newPerson = new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), "");
+                                    
+                            if(!listCheck(newPerson, guestData))
+                            {
+                                guestLabel.setText("You already have this person in your guest list. (Phone number = " + phoneNumberText.getText() + ")");
+                                jumpGuestButton.setDisable(false);
+                                jumpGuestButton.setVisible(true);
+                                firstNameText.setText("");
+                                lastNameText.setText("");
+                                phoneNumberText.setText("");
+                                timeRemainingText.setText("");
+                            }
+                            else if (!listCheck(newPerson, reservationData)) 
+                            {
+                                reservationLabel.setText("You already have this person in your reservation list. (Phone number = " + phoneNumberText.getText() + ")");
+                                jumpReservationButton.setDisable(false);
+                                jumpReservationButton.setVisible(true);
+                                firstNameText.setText("");
+                                lastNameText.setText("");
+                                phoneNumberText.setText("");
+                                timeRemainingText.setText("");
+                            }
+                            else
+                            {
+                                guestData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), ""));
+                                setUpTimer();
+                                firstNameText.setText("");
+                                lastNameText.setText("");
+                                phoneNumberText.setText("");
+                                timeRemainingText.setText("");
+                                timeReservedText.setText("");
+                                countLabel.setText(reservationData.size() + "");
+                            }
                     }
                 }
             }
@@ -203,7 +281,7 @@ public class GuestController implements Initializable
                 {
                     String[] time = timeReservedText.getText().split(":");    
                     if((timeReservedText.getText().substring((timeReservedText.getText().length() - 2)).toUpperCase().equals("AM") || timeReservedText.getText().substring(timeReservedText.getText().length() - 2).toUpperCase().equals("PM")) &&
-                                                            Integer.parseInt(time[0]) > 0 && Integer.parseInt(time[0]) <= 12 && (Integer.parseInt(time[1].substring(0, 2)) > 0 && Integer.parseInt(time[1].substring(0, 2)) < 60))
+                                                            Integer.parseInt(time[0]) > 0 && Integer.parseInt(time[0]) <= 12 && (Integer.parseInt(time[1].substring(0, 2)) >= 0 && Integer.parseInt(time[1].substring(0, 2)) < 60))
                     {
                         if(timeRemainingToggle.isSelected() == true)
                         {
@@ -218,6 +296,31 @@ public class GuestController implements Initializable
                                     {
                                         tReserved = "0" + tReserved; 
                                     }
+                                    
+                                    Person newPerson = new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), tReserved);
+                                    
+                                if(!listCheck(newPerson, guestData))
+                                {
+                                    guestLabel.setText("You already have this person in your guest list. (Phone number = " + phoneNumberText.getText() + ")");
+                                    jumpGuestButton.setDisable(false);
+                                    jumpGuestButton.setVisible(true);
+                                    firstNameText.setText("");
+                                    lastNameText.setText("");
+                                    phoneNumberText.setText("");
+                                    timeRemainingText.setText("");
+                                }
+                                else if (!listCheck(newPerson, reservationData)) 
+                                {
+                                    reservationLabel.setText("You already have this person in your reservation list. (Phone number = " + phoneNumberText.getText() + ")");
+                                    jumpReservationButton.setDisable(false);
+                                    jumpReservationButton.setVisible(true);
+                                    firstNameText.setText("");
+                                    lastNameText.setText("");
+                                    phoneNumberText.setText("");
+                                    timeRemainingText.setText("");
+                                }
+                                else
+                                {
                                     reservationData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), tReserved));
                                     setUpTimer();
                                     firstNameText.setText("");
@@ -226,6 +329,7 @@ public class GuestController implements Initializable
                                     timeRemainingText.setText("");
                                     timeReservedText.setText("");
                                     countLabel.setText(reservationData.size() + "");
+                                }
                                 }
                                 catch (Exception e)
                                 {
@@ -245,14 +349,39 @@ public class GuestController implements Initializable
                             {
                                 tReserved = "0" + tReserved; 
                             }
-                            reservationData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), tReserved));
-                            setUpTimer();
-                            firstNameText.setText("");
-                            lastNameText.setText("");
-                            phoneNumberText.setText("");
-                            timeRemainingText.setText("");
-                            timeReservedText.setText("");
-                            countLabel.setText(reservationData.size() + "");
+                            Person newPerson = new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), tReserved);
+                                    
+                            if(!listCheck(newPerson, guestData))
+                            {
+                                guestLabel.setText("You already have this person in your guest list. (Phone number = " + phoneNumberText.getText() + ")");
+                                jumpGuestButton.setDisable(false);
+                                jumpGuestButton.setVisible(true);
+                                firstNameText.setText("");
+                                lastNameText.setText("");
+                                phoneNumberText.setText("");
+                                timeRemainingText.setText("");
+                            }
+                            else if (!listCheck(newPerson, reservationData)) 
+                            {
+                                reservationLabel.setText("You already have this person in your reservation list. (Phone number = " + phoneNumberText.getText() + ")");
+                                jumpReservationButton.setDisable(false);
+                                jumpReservationButton.setVisible(true);
+                                firstNameText.setText("");
+                                lastNameText.setText("");
+                                phoneNumberText.setText("");
+                                timeRemainingText.setText("");
+                            }
+                            else
+                            {
+                                reservationData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), tReserved));
+                                setUpTimer();
+                                firstNameText.setText("");
+                                lastNameText.setText("");
+                                phoneNumberText.setText("");
+                                timeRemainingText.setText("");
+                                timeReservedText.setText("");
+                                countLabel.setText(reservationData.size() + "");
+                            }
                         }
                     }
                     else
@@ -459,7 +588,17 @@ public class GuestController implements Initializable
 
     //jumps to the list of guests who have an expired time
     public void jumpToGuest()
-    {
+    {   
+        if (guestLabel.getText().substring(0, 65).equals("You already have this person in your guest list. (Phone number = "))
+        {
+            if (currentScreenLabel.getText().equals("Reservations:"))
+                switchMode();
+            searchText.setText(guestLabel.getText().substring(65, guestLabel.getText().length()-1));
+            jumpGuestButton.setDisable(true);
+            jumpGuestButton.setVisible(false);
+        }
+        else
+        {
         addGuestButton.setVisible(true);
         addGuestButton.setDisable(false);
         
@@ -472,6 +611,7 @@ public class GuestController implements Initializable
         searchText.setText(" ");
         searchText.setText("");
         table.refresh();
+        }
     }
 
     public void addGuestBack()
@@ -501,18 +641,27 @@ public class GuestController implements Initializable
 
     public void jumpToReservation()
     {
-        addReservationButton.setVisible(true);
-        addReservationButton.setDisable(false);
-        
-        deleteReservationButton.setVisible(true);
-        deleteReservationButton.setDisable(false);
-        if(currentScreenLabel.getText().equals("Guests:"))
-            switchMode();
-        
-        table.setItems(expiredReservations);
-        searchText.setText(" ");
-        searchText.setText("");
-        table.refresh();
+        if (reservationLabel.getText().substring(0, 71).equals("You already have this person in your reservation list. (Phone number = "))
+        {
+            if(currentScreenLabel.getText().equals("Guests:"))
+                switchMode();
+            searchText.setText(reservationLabel.getText().substring(71, reservationLabel.getText().length()-1));
+            jumpReservationButton.setDisable(true);
+            jumpReservationButton.setVisible(false);
+        }
+        else
+        {
+            addReservationButton.setVisible(true);
+            addReservationButton.setDisable(false);
+            
+            deleteReservationButton.setVisible(true);
+            deleteReservationButton.setDisable(false);
+            
+            table.setItems(expiredReservations);
+            searchText.setText(" ");
+            searchText.setText("");
+            table.refresh();
+        }
     }
 
     //adds any selected expired reservations to the guest list as they should be here
@@ -573,6 +722,7 @@ public class GuestController implements Initializable
             countLabel.setText("" + reservationData.size());
             table.setItems(reservationData);
         }
+        search();
     }
 
     public void changeFirstName(CellEditEvent cell) {
@@ -673,5 +823,13 @@ public class GuestController implements Initializable
         System.exit(0);
     }
 
+    public boolean listCheck(Person newPerson, ObservableList<Person> list)
+    {
+        for (Person person: list) {
+            if (person.getFirstName().equals(newPerson.getFirstName()) && person.getLastName().equals(newPerson.getLastName()) && person.getPhoneNumber().equals(newPerson.getPhoneNumber()))
+                return false;
+        }
+        return true;
+    }
     
 }
