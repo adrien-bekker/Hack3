@@ -5,6 +5,7 @@
 
 .toggle-button {
     -fx-background-radius: 7px;
+    -fx-background-color: gold;
 }
 
 .root {
@@ -19,6 +20,6 @@
     -fx-background-color: gold;
 }
 
-#currentScreenLabel, #countLabel {
+#currentScreenLabel, #countLabel, #reservationLabel, #guestLabel, #timeLabel {
     -fx-text-fill:cyan
 }

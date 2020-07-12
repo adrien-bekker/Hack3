@@ -35,7 +35,7 @@
             <Button fx:id="swapButton" lineSpacing="20.0" mnemonicParsing="false" onAction="#switchMode" text="Reservation" textAlignment="CENTER" />
          </children>
       </HBox>
-      <Button fx:id="jumpButton" layoutX="676.0" layoutY="26.0" mnemonicParsing="false" onAction="#jumpTo" text="Jump To" />
+      <Button fx:id="jumpReservationButton" layoutX="676.0" layoutY="26.0" mnemonicParsing="false" onAction="#jumpTo" text="Jump To" />
       <Button fx:id="addReservationButton" layoutX="602.0" layoutY="26.0" mnemonicParsing="false" onAction="#addToGuest" prefHeight="25.0" prefWidth="59.0" text="Add" />
       <TextField fx:id="searchText" alignment="CENTER" layoutX="348.0" layoutY="116.0" promptText="Search" />
       <Button fx:id="exitButton" layoutX="824.0" layoutY="544.0" mnemonicParsing="false" onAction="#exit" prefHeight="25.0" prefWidth="62.0" text="Exit" />
@@ -62,12 +62,12 @@
             </Label>
          </children>
       </HBox>
-      <Label fx:id="reservationLabel" layoutX="415.0" layoutY="68.0" text="                  " textAlignment="CENTER">
+      <Label fx:id="reservationLabel" layoutX="326.0" layoutY="64.0" text="                  " textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="guestLabel" layoutX="415.0" layoutY="29.0" text="                  " textAlignment="CENTER">
+      <Label fx:id="guestLabel" layoutX="326.0" layoutY="29.0" text="                  " textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font>
@@ -77,6 +77,9 @@
             <Font size="40.0" />
          </font>
       </Label>
-      <Button fx:id="deleteExpiredButton" layoutX="762.0" layoutY="26.0" mnemonicParsing="false" text="Delete" />
+      <Button fx:id="deleteReservation" layoutX="762.0" layoutY="26.0" mnemonicParsing="false" text="Delete" />
+      <Button fx:id="jumpGuestButton" layoutX="676.0" layoutY="62.0" mnemonicParsing="false" onAction="#jumpTo" text="Jump To" />
+      <Button fx:id="addGuestButton" layoutX="602.0" layoutY="62.0" mnemonicParsing="false" onAction="#addToGuest" prefHeight="25.0" prefWidth="59.0" text="Add" />
+      <Button fx:id="deleteGuestButton" layoutX="762.0" layoutY="62.0" mnemonicParsing="false" text="Delete" />
    </children>
 </AnchorPane>
