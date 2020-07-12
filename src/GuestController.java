@@ -127,18 +127,31 @@ public class GuestController implements Initializable
         if(currentScreenLabel.getText().equals("Guests:")) //checks which "mode" the user is in
         {
             if(!(firstNameText.getText().equals("")) && !(lastNameText.getText().equals("")) && !(phoneNumberText.getText().equals("")))
-            {    
+            { 
                 if(timeRemainingToggle.isSelected() == true)
                 {
                     if(!(timeRemainingText.getText().equals("")))
                     {
-                        guestData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), ""));
-                        setUpTimer();
-                        firstNameText.setText("");
-                        lastNameText.setText("");
-                        phoneNumberText.setText("");
-                        timeRemainingText.setText("");
-                        countLabel.setText(guestData.size() + "");
+                        try
+                        {
+                            int minutes = Integer.parseInt(timeRemainingText.getText());
+                            if (minutes > 0) 
+                            {
+                                guestData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), ""));
+                                setUpTimer();
+                                firstNameText.setText("");
+                                lastNameText.setText("");
+                                phoneNumberText.setText("");
+                                timeRemainingText.setText("");
+                                countLabel.setText(guestData.size() + "");
+                            }
+                            else
+                                guestLabel.setText("You must set the time as an integer that's more than 0 minutes");
+                        }
+                        catch (Exception e)
+                        {
+                            guestLabel.setText("You must set the time as an integer in minutes greater than 0");
+                        }
                     }
                     else
                     {
@@ -147,13 +160,28 @@ public class GuestController implements Initializable
                 }
                 else
                 {
-                    guestData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), ""));
-                    setUpTimer();
-                    firstNameText.setText("");
-                    lastNameText.setText("");
-                    phoneNumberText.setText("");
-                    timeRemainingText.setText("");
-                    countLabel.setText(guestData.size() + "");
+                    if(!(timeRemainingText.getText().equals("")))
+                    {
+                        try
+                        {
+                            Integer.parseInt(timeRemainingText.getText());
+                            guestData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), ""));
+                            setUpTimer();
+                            firstNameText.setText("");
+                            lastNameText.setText("");
+                            phoneNumberText.setText("");
+                            timeRemainingText.setText("");
+                            countLabel.setText(guestData.size() + "");
+                        }
+                        catch (Exception e)
+                        {
+                            guestLabel.setText("You must set the time as an integer in minutes");
+                        }
+                    }
+                    else
+                    {
+                        guestLabel.setText("You must fill in all required fields");
+                    }
                 }
             }
             else
@@ -161,15 +189,49 @@ public class GuestController implements Initializable
                 guestLabel.setText("You must fill in all required fields");
             }
         }
-        else if(currentScreenLabel.getText().equals("Reservations:"))
+        else
         {
             if(!(firstNameText.getText().equals("")) && !(lastNameText.getText().equals("")) && !(phoneNumberText.getText().equals("")) && !(timeReservedText.getText().equals("")))
-            {    
-                if(timeReservedText.getText().substring(timeReservedText.getText().length() - 2).toUpperCase().equals("AM") || timeReservedText.getText().substring(timeReservedText.getText().length() - 2).toUpperCase().equals("PM"))
+            {
+                try
                 {
-                    if(timeRemainingToggle.isSelected() == true)
+                    String[] time = timeReservedText.getText().split(":");    
+                    if((timeReservedText.getText().substring((timeReservedText.getText().length() - 2)).toUpperCase().equals("AM") || timeReservedText.getText().substring(timeReservedText.getText().length() - 2).toUpperCase().equals("PM")) &&
+                                                            Integer.parseInt(time[0]) > 0 && Integer.parseInt(time[0]) <= 12 && (Integer.parseInt(time[1].substring(0, 2)) > 0 && Integer.parseInt(time[1].substring(0, 2)) < 60))
                     {
-                        if(!(timeRemainingText.getText().equals("")))
+                        if(timeRemainingToggle.isSelected() == true)
+                        {
+                            if(!(timeRemainingText.getText().equals("")))
+                            {
+                                try
+                                {
+                                    Integer.parseInt(timeRemainingText.getText());
+                                    String tReserved = timeReservedText.getText().toUpperCase();
+                                    int index = tReserved.indexOf(":");
+                                    if(index == 1)
+                                    {
+                                        tReserved = "0" + tReserved; 
+                                    }
+                                    reservationData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), tReserved));
+                                    setUpTimer();
+                                    firstNameText.setText("");
+                                    lastNameText.setText("");
+                                    phoneNumberText.setText("");
+                                    timeRemainingText.setText("");
+                                    timeReservedText.setText("");
+                                    countLabel.setText(reservationData.size() + "");
+                                }
+                                catch (Exception e)
+                                {
+                                    reservationLabel.setText("You must set the time as an integer in minutes");
+                                }
+                            }
+                            else
+                            {
+                                reservationLabel.setText("You must fill in all required fields");
+                            }
+                        }
+                        else
                         {
                             String tReserved = timeReservedText.getText().toUpperCase();
                             int index = tReserved.indexOf(":");
@@ -186,32 +248,15 @@ public class GuestController implements Initializable
                             timeReservedText.setText("");
                             countLabel.setText(reservationData.size() + "");
                         }
-                        else
-                        {
-                            reservationLabel.setText("You must fill in all required fields");
-                        }
                     }
                     else
                     {
-                        String tReserved = timeReservedText.getText().toUpperCase();
-                        int index = tReserved.indexOf(":");
-                        if(index == 1)
-                        {
-                            tReserved = "0" + tReserved; 
-                        }
-                        reservationData.add(new Person(firstNameText.getText(), lastNameText.getText(), phoneNumberText.getText(), timeRemainingText.getText(), tReserved));
-                        setUpTimer();
-                        firstNameText.setText("");
-                        lastNameText.setText("");
-                        phoneNumberText.setText("");
-                        timeRemainingText.setText("");
-                        timeReservedText.setText("");
-                        countLabel.setText(reservationData.size() + "");
+                        reservationLabel.setText("You must specify a valid time (AM or PM)");
                     }
                 }
-                else
+                catch (Exception e)
                 {
-                    reservationLabel.setText("You must specify whether the reservation is at AM or PM");
+                    reservationLabel.setText("You must specify a valid time");
                 }
             }
             else
@@ -541,12 +586,36 @@ public class GuestController implements Initializable
 
     public void changeTimeRemaining(CellEditEvent cell) {
         Person personSelected = table.getSelectionModel().getSelectedItem();
-        personSelected.setTimeRemaining(cell.getNewValue().toString());
+        try
+        {    
+            if (Integer.parseInt(cell.getNewValue().toString()) < 0) 
+            {
+                guestLabel.setText("You must set the time as an integer that's more than 0 minutes");
+            }
+            else
+                personSelected.setTimeRemaining(cell.getNewValue().toString());
+        }
+        catch (Exception e)
+        {
+            guestLabel.setText("You must set the time as an integer in minutes");
+        }
     }
 
     public void changeTimeReserved(CellEditEvent cell) {
         Person personSelected = table.getSelectionModel().getSelectedItem();
-        personSelected.setTimeRemaining(cell.getNewValue().toString());
+        try
+        {
+            String[] time = cell.getNewValue().toString().split(":");
+            if((cell.getNewValue().toString().substring((cell.getNewValue().toString().length() - 2)).toUpperCase().equals("AM") || cell.getNewValue().toString().substring(cell.getNewValue().toString().length() - 2).toUpperCase().equals("PM")) &&
+                                                        Integer.parseInt(time[0]) > 0 && Integer.parseInt(time[0]) <= 12 && (Integer.parseInt(time[1].substring(0, 2)) > 0 && Integer.parseInt(time[1].substring(0, 2)) < 60))
+                personSelected.setTimeRemaining(cell.getNewValue().toString());
+            else
+                reservationLabel.setText("You must specify a valid time (AM or PM)");
+        }
+        catch (Exception e)
+        {
+            reservationLabel.setText("You must specify a valid time");
+        }
     }
 
     public void disableExpiredGuestButtons()
