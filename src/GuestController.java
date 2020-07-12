@@ -42,10 +42,16 @@ public class GuestController implements Initializable
     @FXML private Button addButton;
     @FXML private Button deleteButton;
     @FXML private Button swapButton;
-    @FXML private Button jumpButton;
-    @FXML private Button addReservationButton;
     @FXML private Button exitButton;
-    @FXML private Button deleteExpiredButton;
+
+    @FXML private Button jumpReservationButton;
+    @FXML private Button addReservationButton;
+    @FXML private Button deleteReservationButton;
+
+    @FXML private Button jumpGuestButton;
+    @FXML private Button addGuestButton;
+    @FXML private Button deleteGuestButton;
+    
     
     @FXML private TextField searchText;
     @FXML private TextField firstNameText;
@@ -376,12 +382,26 @@ public class GuestController implements Initializable
                     }
                 }
 
+                if(expiredGuests.size() > 0)
+                {
+                    addGuestButton.setVisible(true);
+                    addGuestButton.setDisable(false);
+                    jumpGuestButton.setVisible(true);
+                    jumpGuestButton.setDisable(false);
+                    deleteGuestButton.setVisible(true);
+                    deleteGuestButton.setDisable(false);
+                    guestLabel.setVisible(true);
+                    guestLabel.setText("There are " + expiredGuests.size() + " person(s) who should have left by now.");
+                }
+
                 if(expiredReservations.size() > 0)
                 {
                     addReservationButton.setVisible(true);
                     addReservationButton.setDisable(false);
-                    jumpButton.setVisible(true);
-                    jumpButton.setDisable(false);
+                    jumpReservationButton.setVisible(true);
+                    jumpReservationButton.setDisable(false);
+                    deleteReservationButton.setVisible(true);
+                    deleteReservationButton.setDisable(false);
                     reservationLabel.setVisible(true);
                     reservationLabel.setText("There are " + expiredReservations.size() + " person(s) who have reservations right now.");
                 }
@@ -405,21 +425,36 @@ public class GuestController implements Initializable
     //adds any selected expired reservations to the guest list as they should be here
     public void addToGuest()
     {
-        guestData.addAll(table.getSelectionModel().getSelectedItems());
-        expiredReservations.removeAll(table.getSelectionModel().getSelectedItems());
-        if(expiredReservations.size() == 0)
-            table.setItems(reservationData);
+        if(currentScreenLabel.getText().equals("Reservations:"))
+        {
+            guestData.addAll(table.getSelectionModel().getSelectedItems());
+            expiredReservations.removeAll(table.getSelectionModel().getSelectedItems());
+            if(expiredReservations.size() == 0)
+                table.setItems(reservationData);
+        }
+        else
+        {
+            expiredGuests.removeAll(table.getSelectionModel().getSelectedItems());
+            if(expiredGuests.size() == 0)
+                table.setItems(guestData);
+        }
     }
 
     //deletes any selected reservations that are expired
     public void deleteExpired()
     {
-        expiredReservations.removeAll(table.getSelectionModel().getSelectedItems());
-        if(expiredReservations.size() == 0)
-            if(currentScreenLabel.getText().equals("Reservations:"))
+        if(currentScreenLabel.getText().equals("Guests:"))
+        {
+            expiredGuests.removeAll(table.getSelectionModel().getSelectedItems());
+            if(expiredGuests.size() == 0)
                 table.setItems(guestData);
-            else
+        }
+        else
+        {
+            expiredReservations.removeAll(table.getSelectionModel().getSelectedItems());
+            if(expiredReservations.size() == 0)
                 table.setItems(reservationData);  
+        }
     }
 
     //switches the mode of the program from guests to reservations and vice versa
@@ -475,12 +510,19 @@ public class GuestController implements Initializable
 
     public void disableExpiredButtons()
     {
+        addGuestButton.setVisible(false);
+        addGuestButton.setDisable(true);
+        jumpGuestButton.setVisible(false);
+        jumpGuestButton.setDisable(false);
+        deleteGuestButton.setVisible(false);
+        deleteGuestButton.setDisable(true);
+        
         addReservationButton.setVisible(false);
         addReservationButton.setDisable(true);
-        jumpButton.setVisible(false);
-        jumpButton.setDisable(true);
-        deleteExpiredButton.setVisible(false);
-        deleteExpiredButton.setDisable(true);
+        jumpReservationButton.setVisible(false);
+        jumpReservationButton.setDisable(true);
+        deleteReservationButton.setVisible(false);
+        deleteReservationButton.setDisable(true);
     }
     public void exit() 
     {
