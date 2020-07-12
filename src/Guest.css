@@ -12,14 +12,16 @@
 }
 
 .root {
-    -fx-background-color: black;
+    -fx-background-color: rgb(80, 76, 76);
 }
 
 .label {
     -fx-text-fill: blue;
 }
 
-.table-column {
+
+.column-header-background:row-selection .column-header-background .nested-column-header .table-column .label
+{
     -fx-background-color: gold;
 }
 
