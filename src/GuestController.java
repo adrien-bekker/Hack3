@@ -69,7 +69,7 @@ public class GuestController implements Initializable
     @FXML private ToggleButton timeRemainingToggle;
 
     private String currentTime;
-    private int reminder, hours, minutes, counter;
+    private int reminder, hours, minutes, counter, notAdded;
 
     private ObservableList<Person> guestData = FXCollections.observableArrayList();
     private ObservableList<Person> reservationData = FXCollections.observableArrayList();
@@ -222,7 +222,7 @@ public class GuestController implements Initializable
                                 phoneNumberText.setText("");
                                 timeRemainingText.setText("");
                                 timeReservedText.setText("");
-                                countLabel.setText(reservationData.size() + "");
+                                countLabel.setText(guestData.size() + "");
                             }
                         }
                         catch (Exception e)
@@ -263,7 +263,7 @@ public class GuestController implements Initializable
                                 phoneNumberText.setText("");
                                 timeRemainingText.setText("");
                                 timeReservedText.setText("");
-                                countLabel.setText(reservationData.size() + "");
+                                countLabel.setText(guestData.size() + "");
                             }
                     }
                 }
@@ -542,7 +542,8 @@ public class GuestController implements Initializable
                     if(hours == 0)
                         if(minutes == 0)
                         {
-                            expiredGuests.add(guestData.remove(counter)); 
+                            expiredGuests.add(guestData.remove(counter));
+                            countLabel.setText("" + guestData.size()); 
                             i--;
                         }
                 } //end of for loop
@@ -560,6 +561,7 @@ public class GuestController implements Initializable
                     if(reservationData.get(counter).getTimeReservedAlone().equals(timeLabel.getText().substring(0, 5)) && reservationData.get(counter).getAMPM().equals(currentMeridiem))
                     {
                         expiredReservations.add(reservationData.remove(counter));
+                        countLabel.setText("" + reservationData.size());
                         j--;
                     }
                 }
@@ -616,14 +618,36 @@ public class GuestController implements Initializable
 
     public void addGuestBack()
     {
-        guestData.addAll(table.getSelectionModel().getSelectedItems());
-        expiredGuests.removeAll(table.getSelectionModel().getSelectedItems());
+        ObservableList<Person> readAddedGuests = table.getSelectionModel().getSelectedItems();
+        ObservableList<Person> writeAddedGuests = FXCollections.observableArrayList(readAddedGuests);
+
+        notAdded = 0;
+        for (int i=0; i<writeAddedGuests.size(); i++)
+        {
+            if (writeAddedGuests.get(i).getTimeRemaining().equals("00:00"))
+            {
+                writeAddedGuests.remove(i);
+                notAdded++;
+                i--;
+            }
+        }
+
+        if (notAdded > 0)
+            guestLabel.setText("There were " + notAdded + " guests who were unable to be added back to the list because their times are invalid");
+
+        if (writeAddedGuests.size() > 0) 
+        {
+            guestData.addAll(writeAddedGuests);
+            expiredGuests.removeAll(table.getSelectionModel().getSelectedItems());
+        }
+
         if(expiredGuests.size() == 0)
         {
             table.setItems(guestData);
             disableExpiredGuestButtons();
             displayMainButtons(true);
             guestLabel.setText("");
+            countLabel.setText("" + guestData.size());
         }
     }
 
@@ -748,12 +772,31 @@ public class GuestController implements Initializable
         Person personSelected = table.getSelectionModel().getSelectedItem();
         try
         {    
-            if (Integer.parseInt(cell.getNewValue().toString()) < 0) 
+            if (Integer.parseInt(cell.getNewValue().toString()) <= 0) 
             {
                 guestLabel.setText("You must set the time as an integer that's more than 0 minutes");
             }
             else
-                personSelected.setTimeRemaining(cell.getNewValue().toString());
+            {
+                reminder = Integer.parseInt(cell.getNewValue().toString());  //gets the most recent entry
+                hours = reminder / 60;
+                minutes = reminder % 60;
+                if(hours > 9) //hours is 2 digits
+                {
+                    if(minutes < 10) //minutes is 1 digit
+                        personSelected.setTimeRemaining(hours + ":" + "0" + minutes);
+                    else //minutes is 2 digits
+                        personSelected.setTimeRemaining(hours + ":" + minutes);
+                }
+                else //hours is 1 digit
+                {
+                    if(minutes < 10) //minutes is 1 digit
+                        personSelected.setTimeRemaining("0" + hours + ":" + "0" + minutes);
+                    else //minutes is 2 digits
+                        personSelected.setTimeRemaining("0" + hours + ":" + minutes);
+                }
+                table.refresh();
+            }
         }
         catch (Exception e)
         {

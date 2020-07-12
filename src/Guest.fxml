@@ -9,6 +9,7 @@
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@Guest.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GuestController">
@@ -26,7 +27,7 @@
          <font>
             <Font name="Arial" size="12.0" />
          </font></ToggleButton>
-      <HBox layoutX="285.0" layoutY="544.0" spacing="20.0">
+      <HBox layoutX="285.0" layoutY="544.0" spacing="20.0" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="285.0" AnchorPane.rightAnchor="340.0" AnchorPane.topAnchor="544.0">
          <children>
             <Button fx:id="addButton" mnemonicParsing="false" onAction="#addPerson" text="Add Guest" textAlignment="CENTER">
                <font>
@@ -36,27 +37,47 @@
             <Button fx:id="swapButton" lineSpacing="20.0" mnemonicParsing="false" onAction="#switchMode" text="Reservation" textAlignment="CENTER" />
          </children>
       </HBox>
-      <HBox fx:id="expiredReservation" layoutX="258.0" layoutY="26.0" prefHeight="25.0" prefWidth="610.0" spacing="20.0">
+      <VBox layoutX="210.0" layoutY="26.0" spacing="10.0" AnchorPane.bottomAnchor="514.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="66.0" AnchorPane.topAnchor="26.0">
          <children>
-            <Label fx:id="reservationLabel" prefHeight="20.0" prefWidth="420.0" text="                  " textAlignment="CENTER" HBox.hgrow="ALWAYS">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <HBox>
+            <HBox fx:id="expiredReservation" prefHeight="25.0" prefWidth="610.0" spacing="20.0">
                <children>
-                  <Button fx:id="addReservationButton" mnemonicParsing="false" onAction="#addReservationToGuestList" prefHeight="25.0" prefWidth="59.0" text="Add" />
-                  <Button fx:id="jumpReservationButton" mnemonicParsing="false" onAction="#jumpToReservation" text="Jump To" />
-                  <Button fx:id="deleteReservationButton" mnemonicParsing="false" onAction="#deleteExpiredReservations" text="Delete" />
+                  <Label fx:id="reservationLabel" prefHeight="20.0" prefWidth="457.0" text="                  " textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <HBox spacing="3.0">
+                     <children>
+                        <Button fx:id="addReservationButton" mnemonicParsing="false" onAction="#addReservationToGuestList" prefHeight="25.0" prefWidth="60.0" text="Add" />
+                        <Button fx:id="jumpReservationButton" mnemonicParsing="false" onAction="#jumpToReservation" prefHeight="25.0" prefWidth="77.0" text="Jump To" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="deleteReservationButton" mnemonicParsing="false" onAction="#deleteExpiredReservations" prefHeight="25.0" prefWidth="65.0" text="Delete" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
+            <HBox fx:id="expiredGuest" prefHeight="25.0" prefWidth="624.0" spacing="20.0">
+               <children>
+                  <Label fx:id="guestLabel" prefHeight="20.0" prefWidth="458.0" text="                  " textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <HBox spacing="3.0">
+                     <children>
+                        <Button fx:id="addGuestButton" mnemonicParsing="false" onAction="#addGuestBack" prefHeight="25.0" prefWidth="60.0" text="Add" />
+                        <Button fx:id="jumpGuestButton" mnemonicParsing="false" onAction="#jumpToGuest" prefHeight="25.0" prefWidth="77.0" text="Jump To" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="deleteGuestButton" mnemonicParsing="false" onAction="#deleteExpiredGuests" prefHeight="25.0" prefWidth="65.0" text="Delete" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
                </children>
             </HBox>
          </children>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </HBox>
+      </VBox>
       <TextField fx:id="searchText" alignment="CENTER" layoutX="348.0" layoutY="116.0" promptText="Search" />
-      <Button fx:id="exitButton" layoutX="824.0" layoutY="544.0" mnemonicParsing="false" onAction="#exit" prefHeight="25.0" prefWidth="62.0" text="Exit" />
+      <Button fx:id="exitButton" layoutX="824.0" layoutY="544.0" mnemonicParsing="false" onAction="#exit" prefHeight="25.0" prefWidth="62.0" text="Exit" AnchorPane.leftAnchor="824.0" AnchorPane.topAnchor="544.0" />
       <HBox layoutX="128.0" layoutY="478.0" spacing="15.0">
          <children>
             <TextField fx:id="firstNameText" alignment="CENTER" prefHeight="25.0" prefWidth="121.0" promptText="First Name" />
@@ -78,22 +99,6 @@
                   <Font size="30.0" />
                </font>
             </Label>
-         </children>
-      </HBox>
-      <HBox fx:id="expiredGuest" layoutX="258.0" layoutY="61.0" prefHeight="25.0" prefWidth="610.0" spacing="20.0">
-         <children>
-            <Label fx:id="guestLabel" prefHeight="20.0" prefWidth="420.0" text="                  " textAlignment="CENTER" HBox.hgrow="ALWAYS">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <HBox>
-               <children>
-                  <Button fx:id="addGuestButton" mnemonicParsing="false" onAction="#addGuestBack" prefHeight="25.0" prefWidth="59.0" text="Add" />
-                  <Button fx:id="jumpGuestButton" mnemonicParsing="false" onAction="#jumpToGuest" text="Jump To" />
-                  <Button fx:id="deleteGuestButton" mnemonicParsing="false" onAction="#deleteExpiredGuests" text="Delete" />
-               </children>
-            </HBox>
          </children>
       </HBox>
       <Label fx:id="timeLabel" layoutX="14.0" layoutY="65.0" text="             ">
