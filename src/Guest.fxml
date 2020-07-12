@@ -35,8 +35,22 @@
             <Button fx:id="swapButton" lineSpacing="20.0" mnemonicParsing="false" onAction="#switchMode" text="Reservation" textAlignment="CENTER" />
          </children>
       </HBox>
-      <Button fx:id="jumpReservationButton" layoutX="676.0" layoutY="26.0" mnemonicParsing="false" onAction="#jumpTo" text="Jump To" />
-      <Button fx:id="addReservationButton" layoutX="602.0" layoutY="26.0" mnemonicParsing="false" onAction="#addToGuest" prefHeight="25.0" prefWidth="59.0" text="Add" />
+      <HBox fx:id="expiredReservation" layoutX="326.0" layoutY="26.0">
+         <children>
+            <Label fx:id="reservationLabel" text="                  " textAlignment="CENTER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <HBox>
+               <children>
+                  <Button fx:id="addReservationButton" mnemonicParsing="false" onAction="#addReservationToGuestList" prefHeight="25.0" prefWidth="59.0" text="Add" />
+                  <Button fx:id="jumpReservationButton" mnemonicParsing="false" onAction="#jumpToReservation" text="Jump To" />
+                  <Button fx:id="deleteReservationButton" mnemonicParsing="false" onAction="#deleteExpiredReservations" text="Delete" />
+               </children>
+            </HBox>
+         </children>
+      </HBox>
       <TextField fx:id="searchText" alignment="CENTER" layoutX="348.0" layoutY="116.0" promptText="Search" />
       <Button fx:id="exitButton" layoutX="824.0" layoutY="544.0" mnemonicParsing="false" onAction="#exit" prefHeight="25.0" prefWidth="62.0" text="Exit" />
       <HBox layoutX="128.0" layoutY="478.0" spacing="15.0">
@@ -62,24 +76,26 @@
             </Label>
          </children>
       </HBox>
-      <Label fx:id="reservationLabel" layoutX="326.0" layoutY="64.0" text="                  " textAlignment="CENTER">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="guestLabel" layoutX="326.0" layoutY="29.0" text="                  " textAlignment="CENTER">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
+      <HBox fx:id="expiredGuest" layoutX="326.0" layoutY="62.0">
+         <children>
+            <Label fx:id="guestLabel" text="                  " textAlignment="CENTER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <HBox>
+               <children>
+                  <Button fx:id="addGuestButton" mnemonicParsing="false" onAction="#addGuestBack" prefHeight="25.0" prefWidth="59.0" text="Add" />
+                  <Button fx:id="jumpGuestButton" mnemonicParsing="false" onAction="#jumpToGuest" text="Jump To" />
+                  <Button fx:id="deleteGuestButton" mnemonicParsing="false" onAction="#deleteExpiredGuests" text="Delete" />
+               </children>
+            </HBox>
+         </children>
+      </HBox>
       <Label fx:id="timeLabel" layoutX="20.0" layoutY="74.0" text="             ">
          <font>
             <Font size="40.0" />
          </font>
       </Label>
-      <Button fx:id="deleteReservation" layoutX="762.0" layoutY="26.0" mnemonicParsing="false" text="Delete" />
-      <Button fx:id="jumpGuestButton" layoutX="676.0" layoutY="62.0" mnemonicParsing="false" onAction="#jumpTo" text="Jump To" />
-      <Button fx:id="addGuestButton" layoutX="602.0" layoutY="62.0" mnemonicParsing="false" onAction="#addToGuest" prefHeight="25.0" prefWidth="59.0" text="Add" />
-      <Button fx:id="deleteGuestButton" layoutX="762.0" layoutY="62.0" mnemonicParsing="false" text="Delete" />
    </children>
 </AnchorPane>
