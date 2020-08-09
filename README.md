@@ -1,6 +1,6 @@
 # Guest Manager
 
-*The all-in-one tool for public and private gatherings
+*The all-in-one tool for public and private gatherings*
 
 # Inspirations and Purpose
 
